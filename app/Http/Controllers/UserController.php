@@ -8,7 +8,6 @@ use Illuminate\Http\Request;
 use App\Http\Requests\UserRequest;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
-use App\Http\Requests\UserUpdateRequest;
 
 class UserController extends Controller
 {
@@ -50,7 +49,7 @@ class UserController extends Controller
 
         User::create($data);
 
-        return redirect()->route("users.index");
+        return redirect()->route("users.index")->with("success","User Data has been created successfully");
     }
 
     /**
@@ -105,7 +104,7 @@ class UserController extends Controller
 
         $user->update($data);
 
-        return redirect()->route("users.index");
+        return redirect()->route("users.index")->with("success","User Data has been updated successfully");
     }
 
     /**
@@ -117,10 +116,10 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         if ($user->profile_photo_path) {
-            Storage::delete($user->profile_photo_path);
+            Storage::delete("public".$user->profile_photo_path);
         }
         $user->delete();
 
-        return redirect()->route("users.index");
+        return redirect()->route("users.index")->with("success","User Data has been deleted successfully");
     }
 }

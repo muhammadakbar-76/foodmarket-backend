@@ -7,6 +7,20 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            @if (session()->has("success"))
+            <div class="mb-5" role="alert">
+                <div class="bg-green-500 text-white font-bold rounded-t px-4 py-2">
+                    Success!
+                </div>
+                <div class="border border-t-0 border-green-400 rounded-b bg-green-100 px-4 py-3 text-green-700">
+                    <p>
+                        <ul>
+                          <li>{{ session("success") }}</li>
+                        </ul>
+                    </p>
+                </div>
+            </div>
+        @endif
            <div style="margin-bottom: 30px">
                <a href="{{ route("food.create") }}" class="text-white font-bold py-2 px-4 rounded" style="background-color: rgba(5, 150, 105, 1); font-weight: bold">
                 Create Food

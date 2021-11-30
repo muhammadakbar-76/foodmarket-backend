@@ -6,6 +6,7 @@ use App\Http\Requests\FoodRequest;
 use App\Http\Requests\FoodUpdateRequest;
 use App\Models\Food;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class FoodController extends Controller
 {
@@ -46,7 +47,7 @@ class FoodController extends Controller
 
         Food::create($data);
 
-        return redirect()->route("food.index");
+        return redirect()->route("food.index")->with("success","Food Data has been added successfully");
     }
 
     /**
@@ -90,17 +91,23 @@ class FoodController extends Controller
 
         $food->update($data);
 
-        return redirect()->route("food.index");
+        return redirect()->route("food.index")->with("success", "Food Data has been edited successfully");
     }
 
     /**
      * Remove the specified resource from storage.
-     *
+    *
      * @param  \App\Models\Food  $food
      * @return \Illuminate\Http\Response
      */
     public function destroy(Food $food)
     {
-        //
+        if ($food->picturePath) {
+            Storage::delete("public".$food->picturePath);
+        }
+
+        $food->delete();
+
+        return redirect()->route("food.index")->with("success","Food Data has been deleted successfully");
     }
 }
